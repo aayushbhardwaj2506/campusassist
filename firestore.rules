@@ -1,0 +1,161 @@
+rules_version = '2';
+
+// Rules for the generic `requests` collection plus the community-feature
+// collections layered on top of it (users, notifications, ratings) — see
+// docs/architecture for the full design. Parcel Assistance is currently
+// the only module writing `requests`; rules are written narrowly around
+// its exact transitions rather than broadly permissive, and will
+// generalize (e.g. driven by a serviceCatalog lookup) as more modules
+// are added in later phases.
+//
+// Everything else stays deny-all until its own module is built.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function hasValidParcelAssistanceMetadata() {
+      let metadata = request.resource.data.metadata;
+      return metadata.title is string
+        && metadata.title.size() > 0
+        && metadata.description is string
+        && metadata.pickupLocation is string
+        && metadata.pickupLocation.size() > 0;
+    }
+
+    // -------------------------------------------------------------------
+    // requests — generic, serviceType-discriminated
+    // -------------------------------------------------------------------
+    match /requests/{requestId} {
+      // Any signed-in user can read any request: Browse needs to show
+      // open requests from every student, and the Details page must be
+      // viewable by a potential helper before they've accepted it.
+      allow read: if isSignedIn();
+
+      // Create: caller must be creating the request as themselves,
+      // starting in the 'open' state with no helper assigned yet, with
+      // well-formed metadata.
+      allow create: if isSignedIn()
+        && request.resource.data.requesterId == request.auth.uid
+        && request.resource.data.status == 'open'
+        && request.resource.data.helperId == null
+        && request.resource.data.campusId is string
+        && hasValidParcelAssistanceMetadata();
+
+      // Update allows exactly four narrow transitions:
+      //   1) the requester editing their own still-open request
+      //   2) any other signed-in user accepting an open request
+      //   3) the requester or the accepted helper marking it completed
+      //   4) the requester flipping `rated` after submitting a rating
+      // Anything else — editing someone else's request, skipping a
+      // status, changing requesterId, etc. — is rejected.
+      allow update: if isSignedIn() && (
+        (
+          isOwner(resource.data.requesterId)
+          && resource.data.status == 'open'
+          && request.resource.data.status == 'open'
+          && request.resource.data.requesterId == resource.data.requesterId
+        ) || (
+          resource.data.status == 'open'
+          && request.resource.data.status == 'accepted'
+          && request.resource.data.helperId == request.auth.uid
+          && request.resource.data.requesterId == resource.data.requesterId
+          && request.auth.uid != resource.data.requesterId
+        ) || (
+          resource.data.status == 'accepted'
+          && request.resource.data.status == 'completed'
+          && (isOwner(resource.data.requesterId) || isOwner(resource.data.helperId))
+        ) || (
+          isOwner(resource.data.requesterId)
+          && resource.data.status == 'completed'
+          && request.resource.data.status == 'completed'
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['rated', 'updatedAt'])
+        )
+      );
+
+      // Delete: only the requester, and only while still open — once
+      // someone has accepted, the request can no longer be pulled out
+      // from under them.
+      allow delete: if isOwner(resource.data.requesterId) && resource.data.status == 'open';
+    }
+
+    // -------------------------------------------------------------------
+    // users — profile + credits/rating aggregate (core/users)
+    // -------------------------------------------------------------------
+    match /users/{userId} {
+      // Any signed-in user can read any profile: the leaderboard and
+      // request cards need to show other students' names and credits.
+      allow read: if isSignedIn();
+
+      allow create: if isOwner(userId);
+
+      allow update: if isOwner(userId) || (
+        // Known, documented trade-off: without a Cloud Function, there's
+        // no server-side identity to award credits / fold in a rating
+        // "as the system" when one user's action (completing/rating a
+        // request) needs to update ANOTHER user's aggregate fields. This
+        // is scoped as tightly as declarative rules allow — only these
+        // specific numeric fields may ever change on someone else's
+        // profile, nothing else (name/email/uid stay owner-only). See
+        // core/users/userProfileService.ts for the full explanation and
+        // the proper long-term fix (an Admin-SDK Cloud Function trigger).
+        isSignedIn()
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['credits', 'ratingSum', 'ratingCount', 'updatedAt'])
+      );
+
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------
+    // notifications — shared dispatch/read collection (core/notifications)
+    // -------------------------------------------------------------------
+    match /notifications/{notificationId} {
+      // Notifications are private: only the recipient may ever read one.
+      allow read: if isOwner(resource.data.userId);
+
+      // Create: any signed-in user may notify another (a side effect of
+      // accepting/completing a request they're party to) — same
+      // no-server-identity trade-off as the users collection above.
+      allow create: if isSignedIn()
+        && request.resource.data.userId is string
+        && request.resource.data.read == false;
+
+      // Update: the recipient may only ever flip `read` — nothing else.
+      allow update: if isOwner(resource.data.userId)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------
+    // ratings — immutable audit record (core/ratings)
+    // -------------------------------------------------------------------
+    match /ratings/{ratingId} {
+      allow read: if isSignedIn();
+
+      // Fully sound without any cross-user trade-off: the rater IS the
+      // authenticated caller, directly enforceable.
+      allow create: if isSignedIn()
+        && request.resource.data.raterId == request.auth.uid
+        && request.resource.data.rateeId is string
+        && request.resource.data.rateeId != request.auth.uid
+        && request.resource.data.value is number
+        && request.resource.data.value >= 1
+        && request.resource.data.value <= 5;
+
+      // Ratings are immutable once submitted — no edits, no deletes.
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

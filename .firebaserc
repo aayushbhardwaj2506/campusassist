@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "campusassist-dev",
+    "dev": "campusassist-dev",
+    "staging": "campusassist-staging",
+    "prod": "campusassist-prod"
+  }
+}

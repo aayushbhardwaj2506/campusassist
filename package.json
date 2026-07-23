@@ -1,0 +1,13 @@
+{
+  "name": "campusassist",
+  "private": true,
+  "version": "0.1.0",
+  "description": "CampusAssist — campus service-request platform (Parcel Pickup v1).",
+  "workspaces": ["apps/web", "functions"],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/web",
+    "build": "npm run build --workspace=apps/web",
+    "lint": "npm run lint --workspace=apps/web",
+    "format": "npm run format --workspace=apps/web"
+  }
+}

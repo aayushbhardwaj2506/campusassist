@@ -1,0 +1,12 @@
+rules_version = '2';
+
+// Phase 1 placeholder: deny all client reads/writes by default.
+// Real rules (scoped by campusId + staffServiceScopes) are introduced
+// in Phase 17 (Attachments) and finalized in Phase 23 (Security Hardening).
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

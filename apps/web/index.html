@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0A0A0B" />
+    <title>CampusAssist</title>
+    <script>
+      // Applies the stored theme before React mounts, so light-mode users
+      // never see a flash of the (default) dark theme on load. Mirrors the
+      // logic in ThemeProvider — dark requires no class, light adds one.
+      (function () {
+        try {
+          if (window.localStorage.getItem('campusassist-theme') === 'light') {
+            document.documentElement.classList.add('light');
+          }
+        } catch (e) {
+          /* localStorage unavailable (private browsing, etc.) — default to dark */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
