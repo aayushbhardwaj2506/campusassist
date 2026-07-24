@@ -28,13 +28,17 @@ export function ParcelRequestForm({ initialValues, submitLabel, onSubmit }: Parc
     }
 
     setIsSubmitting(true);
-    try {
-      await onSubmit({
-        title: title.trim(),
-        description: description.trim(),
-        pickupLocation: pickupLocation.trim(),
-        courier: courier.trim() || undefined,
-      });
+   try {
+  const data = {
+    title: title.trim(),
+    description: description.trim(),
+    pickupLocation: pickupLocation.trim(),
+    courier: courier.trim(),
+  };
+
+  console.log("Submitting:", data);
+
+  await onSubmit(data);
     } catch (error) {
       setFormError(
         error instanceof Error ? error.message : 'Something went wrong. Please try again.',

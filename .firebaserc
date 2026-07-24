@@ -1,8 +1,10 @@
 {
   "projects": {
-    "default": "campusassist-dev",
+    "default": "campusassist-9c37c",
     "dev": "campusassist-dev",
     "staging": "campusassist-staging",
     "prod": "campusassist-prod"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }
