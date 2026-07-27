@@ -14,20 +14,20 @@ export function LeaderboardRow({ rank, entry, isCurrentUser }: LeaderboardRowPro
   return (
     <div
       className={`flex items-center justify-between gap-3 rounded-card border p-3 ${
-        isCurrentUser ? 'border-accent bg-accent-muted/20' : 'border-surface-border bg-surface-raised'
+        isCurrentUser ? 'border-accent bg-accent-muted/20' : 'border-surface-border bg-white/10 backdrop-blur-xl border border-white/20'
       }`}
     >
       <div className="flex items-center gap-3">
-        <span className="w-6 shrink-0 text-center text-sm font-semibold text-text-secondary">
+        <span className="w-6 shrink-0 text-center text-sm font-semibold text-white/80">
           {MEDALS[rank] ?? rank}
         </span>
         <div>
           <p className="text-sm font-medium text-text-primary">
             {entry.name}
-            {isCurrentUser && <span className="ml-1 text-text-muted">(You)</span>}
+            {isCurrentUser && <span className="ml-1 text-orange-300">(You)</span>}
           </p>
           {averageRating !== null && (
-            <p className="text-xs text-text-muted">
+            <p className="text-xs text-orange-300">
               ★ {averageRating.toFixed(1)} ({entry.ratingCount})
             </p>
           )}

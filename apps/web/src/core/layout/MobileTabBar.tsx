@@ -9,7 +9,7 @@ import { NAV_ITEMS } from './navItems';
  */
 export function MobileTabBar() {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-20 flex border-t border-surface-border bg-surface-raised md:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-20 flex border-t border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 md:hidden">
       {NAV_ITEMS.map((item) => (
         <NavLink
           key={item.path}
@@ -17,7 +17,7 @@ export function MobileTabBar() {
           end
           className={({ isActive }) =>
             `flex flex-1 flex-col items-center gap-1 py-2 text-xs font-medium ${
-              isActive ? 'text-accent' : 'text-text-muted'
+              isActive ? 'text-accent' : 'text-orange-300'
             }`
           }
         >

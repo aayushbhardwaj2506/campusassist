@@ -16,16 +16,16 @@ export function ParcelRequestCard({ request }: ParcelRequestCardProps) {
   return (
     <Link
       to={buildParcelAssistanceDetailPath(request.id)}
-      className="flex flex-col gap-2 rounded-card border border-surface-border bg-surface-raised p-4 transition-colors hover:border-accent/50"
+      className="flex flex-col gap-2 rounded-card border border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 p-4 transition-colors hover:border-accent/50"
     >
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-sm font-semibold text-text-primary">{request.metadata.title}</h3>
         <StatusBadge label={label} tone={tone} />
       </div>
 
-      <p className="line-clamp-2 text-sm text-text-secondary">{request.metadata.description}</p>
+      <p className="line-clamp-2 text-sm text-white/80">{request.metadata.description}</p>
 
-      <div className="flex items-center justify-between text-xs text-text-muted">
+      <div className="flex items-center justify-between text-xs text-orange-300">
         <span className="truncate">{request.metadata.pickupLocation}</span>
         <span className="shrink-0">{formatRelativeTime(request.createdAt)}</span>
       </div>

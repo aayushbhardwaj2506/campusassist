@@ -46,8 +46,10 @@ export function NotificationBell() {
         )}
       </button>
 
-      {isOpen && (
-        <div className="absolute right-0 z-30 mt-2 w-80 rounded-card border border-surface-border bg-surface-raised shadow-elevated">
+{isOpen && (
+  <div
+    className="fixed left-4 right-4 top-16 z-50 rounded-card border border-white/20 bg-white/10 backdrop-blur-xl shadow-elevated sm:absolute sm:right-0 sm:left-auto sm:top-full sm:mt-2 sm:w-80"
+  >
           <div className="flex items-center justify-between border-b border-surface-border px-4 py-3">
             <span className="text-sm font-medium text-text-primary">Notifications</span>
             <button

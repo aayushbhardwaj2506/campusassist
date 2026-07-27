@@ -44,7 +44,7 @@ export function ParcelRequestDetailPage() {
 
   if (loadError || !request) {
     return (
-      <p className="text-sm text-text-secondary">
+      <p className="text-sm text-white/80">
         This request could not be found. It may have been deleted.
       </p>
     );
@@ -117,37 +117,37 @@ export function ParcelRequestDetailPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-xl font-semibold text-text-primary">{request.metadata.title}</h1>
-          <p className="mt-1 text-sm text-text-secondary">
+          <p className="mt-1 text-sm text-white/80">
             Posted by {request.requesterNameSnapshot} · {formatRelativeTime(request.createdAt)}
           </p>
         </div>
         <StatusBadge label={label} tone={tone} />
       </div>
 
-      <div className="rounded-card border border-surface-border bg-surface-raised p-5">
+      <div className="rounded-card border border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 p-5">
         <RequestStatusFlow status={request.status} />
       </div>
 
-      <div className="rounded-card border border-surface-border bg-surface-raised p-5">
+      <div className="rounded-card border border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 p-5">
         <h2 className="text-sm font-semibold text-text-primary">Details</h2>
         <dl className="mt-3 flex flex-col gap-3 text-sm">
           <div className="flex justify-between gap-4">
-            <dt className="shrink-0 text-text-secondary">Description</dt>
+            <dt className="shrink-0 text-white/80">Description</dt>
             <dd className="text-right text-text-primary">{request.metadata.description}</dd>
           </div>
           <div className="flex justify-between gap-4">
-            <dt className="shrink-0 text-text-secondary">Pickup location</dt>
+            <dt className="shrink-0 text-white/80">Pickup location</dt>
             <dd className="text-right text-text-primary">{request.metadata.pickupLocation}</dd>
           </div>
           {request.metadata.courier && (
             <div className="flex justify-between gap-4">
-              <dt className="shrink-0 text-text-secondary">Courier</dt>
+              <dt className="shrink-0 text-white/80">Courier</dt>
               <dd className="text-right text-text-primary">{request.metadata.courier}</dd>
             </div>
           )}
           {request.helperNameSnapshot && (
             <div className="flex justify-between gap-4">
-              <dt className="shrink-0 text-text-secondary">Helper</dt>
+              <dt className="shrink-0 text-white/80">Helper</dt>
               <dd className="text-right text-text-primary">{request.helperNameSnapshot}</dd>
             </div>
           )}
@@ -159,7 +159,7 @@ export function ParcelRequestDetailPage() {
       )}
 
       {isRequester && request.status === 'completed' && request.rated && (
-        <p className="text-sm text-text-secondary">
+        <p className="text-sm text-white/80">
           You&apos;ve rated this helper — thank you for the feedback!
         </p>
       )}

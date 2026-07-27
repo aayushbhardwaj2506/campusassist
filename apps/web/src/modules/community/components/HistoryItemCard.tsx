@@ -29,7 +29,7 @@ export function HistoryItemCard({ item }: HistoryItemCardProps) {
         <h3 className="text-sm font-semibold text-text-primary">{item.title}</h3>
         <StatusBadge label={label} tone={tone} />
       </div>
-      <div className="mt-2 flex items-center justify-between text-xs text-text-muted">
+      <div className="mt-2 flex items-center justify-between text-xs text-orange-300">
         <span className="truncate">
           {item.myRole === 'requester' ? 'You requested' : 'You helped'}
           {item.myRole === 'requester' && item.helperNameSnapshot
@@ -42,7 +42,7 @@ export function HistoryItemCard({ item }: HistoryItemCardProps) {
   );
 
   const className =
-    'block rounded-card border border-surface-border bg-surface-raised p-4 transition-colors hover:border-accent/50';
+    'block rounded-card border border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 p-4 transition-colors hover:border-accent/50';
 
   return detailPath ? (
     <Link to={detailPath} className={className}>

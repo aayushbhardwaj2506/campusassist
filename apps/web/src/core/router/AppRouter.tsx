@@ -1,5 +1,5 @@
+import ParcelChatPage from "../../ParcelChatPage";
 import { Navigate, Route, Routes } from 'react-router-dom';
-
 import { AppShell } from '@core/layout';
 import { LoginPage } from '@modules/auth/pages/LoginPage';
 import { RegisterPage } from '@modules/auth/pages/RegisterPage';
@@ -18,6 +18,7 @@ export function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to={ROUTES.dashboard} replace />} />
+      <Route path="/chat/:requestId" element={<ParcelChatPage />} />
 
       <Route
         path={ROUTES.login}
