@@ -5,11 +5,18 @@ import { useRequestHistory } from '../hooks/useRequestHistory';
 export function RequestHistoryPage() {
   const { items, loading, error } = useRequestHistory();
 
-  return (
-    <div className="flex flex-col gap-4">
+return (
+  <div
+    className="min-h-screen bg-cover bg-center bg-fixed"
+    style={{
+      backgroundImage: "url('/images/history-bg.jpg')",
+    }}
+  >
+    <div className="min-h-screen bg-black/20 px-4 py-6">
+      <div className="flex flex-col gap-4">
       <div>
         <h1 className="text-xl font-semibold text-text-primary">Request History</h1>
-        <p className="mt-1 text-sm text-text-secondary">
+        <p className="mt-1 text-sm text-white/80">
           Everything you&apos;ve requested or helped with, across every service.
         </p>
       </div>
@@ -21,7 +28,7 @@ export function RequestHistoryPage() {
           <LoadingSpinner label="Loading history…" />
         </div>
       ) : items.length === 0 ? (
-        <div className="rounded-card border border-dashed border-surface-border p-8 text-center text-sm text-text-muted">
+        <div className="rounded-card border border-dashed border-surface-border p-8 text-center text-sm text-orange-300">
           No history yet — your requests and the ones you help with will show up here.
         </div>
       ) : (
@@ -31,6 +38,8 @@ export function RequestHistoryPage() {
           ))}
         </div>
       )}
+        </div>
     </div>
-  );
+  </div>
+);
 }

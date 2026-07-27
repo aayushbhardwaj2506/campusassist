@@ -30,11 +30,11 @@ export function ConfirmDialog({
       aria-labelledby="confirm-dialog-title"
       className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 px-4"
     >
-      <div className="w-full max-w-sm rounded-card border border-surface-border bg-surface-raised p-6 shadow-elevated">
+      <div className="w-full max-w-sm rounded-card border border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 p-6 shadow-elevated">
         <h2 id="confirm-dialog-title" className="text-base font-semibold text-text-primary">
           {title}
         </h2>
-        <p className="mt-2 text-sm text-text-secondary">{description}</p>
+        <p className="mt-2 text-sm text-white/80">{description}</p>
         <div className="mt-6 flex justify-end gap-3">
           <Button variant="secondary" fullWidth={false} onClick={onCancel} disabled={isConfirming}>
             {cancelLabel}

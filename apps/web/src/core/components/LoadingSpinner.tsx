@@ -18,7 +18,7 @@ export function LoadingSpinner({ size = 'md', label }: LoadingSpinnerProps) {
         aria-label={label ?? 'Loading'}
         className={`animate-spin rounded-full border-surface-border border-t-accent ${SIZE_CLASSES[size]}`}
       />
-      {label && <span className="text-sm text-text-muted">{label}</span>}
+      {label && <span className="text-sm text-orange-300">{label}</span>}
     </div>
   );
 }

@@ -30,14 +30,14 @@ export function RequestStatusFlow({ status }: RequestStatusFlowProps) {
                     ? 'border-accent bg-accent text-white'
                     : isCurrent
                       ? 'border-accent text-accent'
-                      : 'border-surface-border text-text-muted'
+                      : 'border-surface-border text-orange-300'
                 }`}
               >
                 {isComplete ? <Check className="h-4 w-4" /> : index + 1}
               </div>
               <span
                 className={`whitespace-nowrap text-xs ${
-                  isCurrent || isComplete ? 'text-text-primary' : 'text-text-muted'
+                  isCurrent || isComplete ? 'text-text-primary' : 'text-orange-300'
                 }`}
               >
                 {step.label}

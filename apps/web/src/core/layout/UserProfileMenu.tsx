@@ -43,14 +43,14 @@ export function UserProfileMenu() {
           {getInitial(displayName)}
         </span>
         <span className="hidden max-w-[140px] truncate md:inline">{displayName}</span>
-        <ChevronDown className="h-4 w-4 text-text-muted" />
+        <ChevronDown className="h-4 w-4 text-orange-300" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 z-30 mt-2 w-56 rounded-card border border-surface-border bg-surface-raised shadow-elevated">
+        <div className="absolute right-0 z-30 mt-2 w-56 rounded-card border border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 shadow-elevated">
           <div className="border-b border-surface-border px-4 py-3">
             <p className="truncate text-sm font-medium text-text-primary">{displayName}</p>
-            {user?.email && <p className="truncate text-xs text-text-muted">{user.email}</p>}
+            {user?.email && <p className="truncate text-xs text-orange-300">{user.email}</p>}
           </div>
           <button
             type="button"

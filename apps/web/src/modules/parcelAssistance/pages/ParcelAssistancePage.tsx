@@ -18,17 +18,24 @@ export function ParcelAssistancePage() {
   const mine = useMyParcelRequests();
   const active = tab === 'browse' ? open : mine;
 
-  return (
-    <div className="flex flex-col gap-6">
+return (
+  <div
+    className="min-h-screen bg-cover bg-center bg-fixed"
+    style={{
+      backgroundImage: "url('/images/parcel-bg.jpg')",
+    }}
+  >
+    <div className="min-h-screen bg-black/20 px-4 py-6">
+      <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex gap-1 rounded-card border border-surface-border bg-surface-raised p-1">
+        <div className="flex gap-1 rounded-card border border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 p-1">
           <button
             type="button"
             onClick={() => setTab('browse')}
             className={`rounded-card px-3 py-1.5 text-sm font-medium transition-colors ${
               tab === 'browse'
                 ? 'bg-accent text-white'
-                : 'text-text-secondary hover:text-text-primary'
+                : 'text-white/80 hover:text-text-primary'
             }`}
           >
             Browse
@@ -39,7 +46,7 @@ export function ParcelAssistancePage() {
             className={`rounded-card px-3 py-1.5 text-sm font-medium transition-colors ${
               tab === 'mine'
                 ? 'bg-accent text-white'
-                : 'text-text-secondary hover:text-text-primary'
+                : 'text-white/80 hover:text-text-primary'
             }`}
           >
             My Requests
@@ -63,7 +70,7 @@ export function ParcelAssistancePage() {
           <LoadingSpinner label="Loading requests…" />
         </div>
       ) : active.requests.length === 0 ? (
-        <div className="rounded-card border border-dashed border-surface-border p-8 text-center text-sm text-text-muted">
+        <div className="rounded-card border border-dashed border-surface-border p-8 text-center text-sm text-orange-300">
           {tab === 'browse'
             ? 'No open requests right now — check back soon.'
             : "You haven't created any requests yet."}
@@ -88,6 +95,8 @@ export function ParcelAssistancePage() {
           </Button>
         </div>
       )}
+      </div>
     </div>
-  );
+  </div>
+);
 }

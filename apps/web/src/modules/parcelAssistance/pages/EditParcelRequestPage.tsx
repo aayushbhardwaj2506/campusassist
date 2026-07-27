@@ -29,16 +29,16 @@ export function EditParcelRequestPage() {
   }
 
   if (!request) {
-    return <p className="text-sm text-text-secondary">This request could not be found.</p>;
+    return <p className="text-sm text-white/80">This request could not be found.</p>;
   }
 
   if (request.requesterId !== user?.uid) {
-    return <p className="text-sm text-text-secondary">You can only edit your own requests.</p>;
+    return <p className="text-sm text-white/80">You can only edit your own requests.</p>;
   }
 
   if (request.status !== 'open') {
     return (
-      <p className="text-sm text-text-secondary">
+      <p className="text-sm text-white/80">
         This request can no longer be edited because it&apos;s no longer open.
       </p>
     );

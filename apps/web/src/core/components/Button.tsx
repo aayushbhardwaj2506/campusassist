@@ -16,7 +16,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-accent text-white hover:bg-accent-hover',
   secondary:
     'border border-surface-border bg-surface-overlay text-text-primary hover:bg-surface-border',
-  ghost: 'bg-transparent text-text-secondary hover:bg-surface-overlay',
+  ghost: 'bg-transparent text-white/80 hover:bg-surface-overlay',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

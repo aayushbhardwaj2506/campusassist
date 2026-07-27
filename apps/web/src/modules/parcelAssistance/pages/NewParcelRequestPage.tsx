@@ -24,7 +24,7 @@ export function NewParcelRequestPage() {
     <div className="mx-auto flex max-w-lg flex-col gap-6">
       <div>
         <h1 className="text-xl font-semibold text-text-primary">New parcel assistance request</h1>
-        <p className="mt-1 text-sm text-text-secondary">
+        <p className="mt-1 text-sm text-white/80">
           Ask another student to pick up or hold your parcel while you&apos;re away.
         </p>
       </div>

@@ -267,7 +267,27 @@ export async function fetchMoreOpenRequests(
   const snapshot = await getDocs(q);
   return snapshot.docs;
 }
+export function subscribeToHelpingRequests(
+  userId: string,
+  onData: (requests: ParcelAssistanceRequest[]) => void,
+  onError?: (error: Error) => void,
+  requestLimit = 50,
+): Unsubscribe {
+  const q = query(
+    requestsRef(),
+    where('serviceType', '==', PARCEL_ASSISTANCE_SERVICE_TYPE),
+    where('helperId', '==', userId),
+    orderBy('createdAt', 'desc'),
+    limit(requestLimit),
+  );
 
+  return onSnapshot(
+    q,
+    (snapshot) =>
+      onData(snapshot.docs.map((docSnap) => mapDataToRequest(docSnap.id, docSnap.data()))),
+    onError,
+  );
+}
 export function subscribeToMyRequests(
   userId: string,
   onData: (requests: ParcelAssistanceRequest[]) => void,

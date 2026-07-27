@@ -35,14 +35,14 @@ export function RatingForm({ onSubmit }: RatingFormProps) {
 
   if (submitted) {
     return (
-      <div className="rounded-card border border-surface-border bg-surface-raised p-5 text-sm text-text-secondary">
+      <div className="rounded-card border border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 p-5 text-sm text-white/80">
         Thanks for rating your helper!
       </div>
     );
   }
 
   return (
-    <div className="rounded-card border border-surface-border bg-surface-raised p-5">
+    <div className="rounded-card border border-surface-border bg-white/10 backdrop-blur-xl border border-white/20 p-5">
       <h2 className="text-sm font-semibold text-text-primary">Rate your helper</h2>
 
       <div className="mt-3 flex gap-1">
